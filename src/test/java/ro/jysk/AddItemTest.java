@@ -1,15 +1,18 @@
 package ro.jysk;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class AddToCartTest {
+import java.time.Duration;
+
+public class AddItemTest {
     WebDriver driver;
     String url="https://jysk.ro/";
     @BeforeTest
@@ -19,23 +22,35 @@ public class AddToCartTest {
         driver.manage().window().maximize();
     }
     @Test
-    public void addToCart(){
+    public void addItem(){
         WebElement cookieAccept= driver.findElement(By.className("coi-banner__accept"));
         if (cookieAccept.isDisplayed()) {
             cookieAccept.click();}
         WebElement searchBar= driver.findElement(By.xpath("//input[@placeholder='Cautare produs sau categorie…']"));
         searchBar.sendKeys("fotoliu");
         searchBar.submit();
-        WebElement fotoliuAlb= driver.findElement(By.linkText("<a href='/sufragerie/fotolii/fotoliu-vildsund-alb-murdar' class='product-teaser-buttons btn btn-secondary btn-block'>Citește mai multe</a>"));
-        fotoliuAlb.click();
+        Actions actions = new Actions(driver);
+        sleep(5000);
+        actions.sendKeys(Keys.ESCAPE).perform();
+        WebElement fotoliu= driver.findElement(By.xpath("//a[normalize-space()='Fotoliu THORUP bej/stejar']"));
+        actions.scrollToElement(fotoliu).perform();
+        fotoliu.click();
         WebElement addButton= driver.findElement(By.linkText("Adaugă în coș"));
         addButton.click();
-        WebElement notification= driver.findElement(By.id("notification"));
+        sleep(3000);
+        WebElement notification= driver.findElement(By.cssSelector(".text-header.s-2"));
         String expectedResult="Produsul a fost adăugat în coş";
         Assert.assertTrue(notification.getText().contains(expectedResult));
     }
-    @AfterTest(alwaysRun = true)
-    public void tearDwon(){
+   @AfterTest(alwaysRun = true)
+    public void tearDown(){
         driver.close();
     }
-}
+
+    public static void sleep(int milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+}}
