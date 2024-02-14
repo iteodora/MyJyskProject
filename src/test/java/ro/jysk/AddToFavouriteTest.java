@@ -34,7 +34,8 @@ public class AddToFavouriteTest {
         WebElement fotoliu= driver.findElement(By.xpath("//a[normalize-space()='Fotoliu THORUP bej/stejar']"));
         actions.scrollToElement(fotoliu).perform();
         fotoliu.click();
-        WebElement favouriteButton= driver.findElement(By.xpath("//button[@class='icon btn btn-link add-to-wishlist']"));
+        driver.manage().window().fullscreen();
+        WebElement favouriteButton= driver.findElement(By.cssSelector(".add-to-wishlist.btn.btn-link  svg[role='img']"));
         favouriteButton.click();
         sleep(3000);
         actions.sendKeys(Keys.ESCAPE).perform();

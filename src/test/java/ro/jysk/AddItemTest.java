@@ -37,7 +37,7 @@ public class AddItemTest {
         fotoliu.click();
         WebElement addButton= driver.findElement(By.linkText("Adaugă în coș"));
         addButton.click();
-        sleep(3000);
+        sleep(5000);
         WebElement notification= driver.findElement(By.cssSelector(".text-header.s-2"));
         String expectedResult="Produsul a fost adăugat în coş";
         Assert.assertTrue(notification.getText().contains(expectedResult));

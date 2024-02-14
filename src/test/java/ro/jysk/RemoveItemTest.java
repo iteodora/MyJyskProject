@@ -43,6 +43,7 @@ public class RemoveItemTest {
         WebElement removeButton= driver.findElement(By.xpath("//span[@class='remove-from-basket removeFromBasket']"));
         removeButton.click();
         WebElement checkoutMessage=driver.findElement(By.xpath("//*[@id='checkout']"));
+        sleep(3000);
         actions.sendKeys(Keys.ESCAPE).perform();
         WebElement emptyCart= driver.findElement(By.cssSelector(".empty"));
         Assert.assertTrue(checkoutMessage.getText().contains(emptyCart.getText()));

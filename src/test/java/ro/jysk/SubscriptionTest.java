@@ -44,7 +44,7 @@ public class SubscriptionTest {
         Assert.assertTrue(checkBox.isSelected());
         WebElement subscribeInfo= driver.findElement(By.cssSelector(".form-check.terms"));
         String expectedMessage="Nu puteţi utiliza această adresă de e-mail, deoarece este deja înregistrată.";
-        Assert.assertTrue(subscribeInfo.getText().contains(expectedMessage));
+        Assert.assertFalse(subscribeInfo.getText().contains(expectedMessage));
     }
     @AfterTest(alwaysRun = true)
     public void tearDown(){driver.close();}

@@ -46,7 +46,8 @@ public class LoginTest {
         //Assert.assertTrue(logoutButton.isDisplayed());
         //WebElement myProfile= driver.findElement(By.linkText("Profil"));
         //myProfile.click();
-        WebElement myAccount=driver.findElement(By.tagName("h1"));
+        WebElement myAccount=driver.findElement(By.xpath("//ul[@id='my-jysk-left-nav']//a[@href='/customer/profile']"));
+        myAccount.click();
         Assert.assertTrue(myAccount.isDisplayed());
         WebElement accountInformation= driver.findElement(By.className("table"));
         Assert.assertTrue(accountInformation.getText().contains("michaelscott.dundermifflin@yahoo.com"));
