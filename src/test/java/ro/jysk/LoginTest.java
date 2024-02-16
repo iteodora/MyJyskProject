@@ -6,10 +6,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import test.v6.C;
 
@@ -19,7 +22,6 @@ import java.sql.Driver;
 public class LoginTest {
     WebDriver driver;
     String url="https://jysk.ro/";
-
     @BeforeTest
     public void setUp(){
         driver=new ChromeDriver();
@@ -38,24 +40,29 @@ public class LoginTest {
         actions.sendKeys(Keys.ESCAPE).perform();
         WebElement emailInput= driver.findElement(By.id("email"));
         emailInput.sendKeys("michaelscott.dundermifflin@yahoo.com");
+        WebElement keepMeLoggedInButton= driver.findElement(By.cssSelector("input#keep-me-logged-in"));
+        keepMeLoggedInButton.click();
         WebElement passwordInput= driver.findElement(By.id("password"));
         passwordInput.sendKeys("somehow,Imanage0");
         passwordInput.sendKeys(Keys.ENTER);
         driver.manage().window().maximize();
-        //WebElement logoutButton= driver.findElement(By.xpath("//*[@id='my-jysk-left-nav']/li[5]/a"));
-        //Assert.assertTrue(logoutButton.isDisplayed());
-        //WebElement myProfile= driver.findElement(By.linkText("Profil"));
-        //myProfile.click();
-        WebElement myAccount=driver.findElement(By.xpath("//ul[@id='my-jysk-left-nav']//a[@href='/customer/profile']"));
+        sleep(3000);
+        WebElement logoutButton= driver.findElement(By.linkText("Ieși din cont"));
+        Assert.assertTrue(logoutButton.isDisplayed());
+        /*WebElement myAccount=driver.findElement(By.xpath("//span[@class='icon-text py-2 d-block']"));
         myAccount.click();
-        Assert.assertTrue(myAccount.isDisplayed());
-        WebElement accountInformation= driver.findElement(By.className("table"));
-        Assert.assertTrue(accountInformation.getText().contains("michaelscott.dundermifflin@yahoo.com"));
-
+        WebElement myProfile=driver.findElement(By.linkText("Profil"));
+        myProfile.click();
+        WebElement accountInformation= driver.findElement(By.cssSelector("td[data-label='Informații client și adresă de facturare']"));
+        Assert.assertTrue(accountInformation.getText().contains("michaelscott.dundermifflin@yahoo.com"));*/
+        String mesaj="Nu ai efectuat nicio comandă până acum.";
+        actions.sendKeys(Keys.ESCAPE).perform();
+        WebElement  accountInfo= driver.findElement(By.cssSelector(".order-table"));
+        Assert.assertTrue(accountInfo.getText().contains(mesaj));
     }
     @AfterTest(alwaysRun = true)
     public void tearDown(){
-        driver.close();
+       driver.close();
     }
     public static void sleep(int milliseconds){
         try {

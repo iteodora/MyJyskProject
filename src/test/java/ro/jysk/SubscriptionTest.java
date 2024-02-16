@@ -6,10 +6,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class SubscriptionTest {
@@ -31,7 +34,7 @@ public class SubscriptionTest {
         action.sendKeys(Keys.ESCAPE).perform();
         driver.manage().window().fullscreen();
         WebElement nameInput= driver.findElement(By.xpath("//form[@id='jysk-teradata-subscribe-form']//input[@name='name']"));
-        nameInput.sendKeys("Michael Scott");
+        nameInput.sendKeys("Michael");
         WebElement emailInput= driver.findElement(By.xpath("/html//input[@id='teradata-email']"));
         emailInput.sendKeys("michaelscott.dundermifflin@yahoo.com");
         WebElement submitButton= driver.findElement(By.xpath("//form[@id='jysk-teradata-subscribe-form']//button[@type='submit']"));
@@ -42,9 +45,10 @@ public class SubscriptionTest {
         action.click(checkBox).perform();
         submitButton.submit();
         Assert.assertTrue(checkBox.isSelected());
-        WebElement subscribeInfo= driver.findElement(By.cssSelector(".form-check.terms"));
-        String expectedMessage="Nu puteţi utiliza această adresă de e-mail, deoarece este deja înregistrată.";
-        Assert.assertFalse(subscribeInfo.getText().contains(expectedMessage));
+        sleep(3000);
+        WebElement subscribeInfo= driver.findElement(By.cssSelector(".alert-dismissible.alert-success"));
+        String expectedMessage="Nu puteți utiliza această adresă de e-mail, deoarece este deja înregistrată.";
+        Assert.assertTrue(subscribeInfo.getText().contains(expectedMessage));
     }
     @AfterTest(alwaysRun = true)
     public void tearDown(){driver.close();}
